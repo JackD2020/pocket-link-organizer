@@ -50,18 +50,18 @@ export const LinkList: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-semibold">Ваши ссылки</h2>
+      <h2 className="text-2xl font-semibold text-center md:text-left">Ваши ссылки</h2>
       
       {links.length === 0 ? (
-        <div className="text-center p-12 border rounded-lg bg-secondary/30">
+        <div className="text-center p-8 md:p-12 border rounded-lg bg-gray-800/30 border-gray-700">
           <LinkIcon className="mx-auto h-12 w-12 text-muted-foreground" />
           <h3 className="mt-4 text-lg font-medium">Нет сохраненных ссылок</h3>
           <p className="mt-2 text-muted-foreground">Начните добавлять ссылки с помощью кнопки "Добавить ссылку"</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {links.map((link) => (
-            <Card key={link.id} className="link-card">
+            <Card key={link.id} className="link-card bg-gray-800 border-gray-700">
               <CardContent className="pt-6">
                 <div 
                   className="cursor-pointer mb-2" 
@@ -84,6 +84,7 @@ export const LinkList: React.FC = () => {
                   variant="ghost" 
                   size="icon" 
                   onClick={() => handleEdit(link)}
+                  className="hover:bg-gray-700"
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
@@ -91,6 +92,7 @@ export const LinkList: React.FC = () => {
                   variant="ghost" 
                   size="icon" 
                   onClick={() => deleteLink(link.id)}
+                  className="hover:bg-gray-700"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -101,7 +103,7 @@ export const LinkList: React.FC = () => {
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700">
           <DialogHeader>
             <DialogTitle>Редактировать ссылку</DialogTitle>
           </DialogHeader>
@@ -114,6 +116,7 @@ export const LinkList: React.FC = () => {
                 onChange={(e) => setUrl(e.target.value)} 
                 placeholder="https://example.com"
                 required
+                className="bg-gray-700 border-gray-600"
               />
             </div>
             <div className="space-y-2">
@@ -123,6 +126,7 @@ export const LinkList: React.FC = () => {
                 value={title} 
                 onChange={(e) => setTitle(e.target.value)} 
                 placeholder="Пример названия"
+                className="bg-gray-700 border-gray-600"
               />
             </div>
             <div className="space-y-2">
@@ -133,6 +137,7 @@ export const LinkList: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)} 
                 placeholder="Добавьте описание ссылки..."
                 rows={3}
+                className="bg-gray-700 border-gray-600"
               />
             </div>
             <DialogFooter>
@@ -143,6 +148,7 @@ export const LinkList: React.FC = () => {
                   setIsDialogOpen(false);
                   setEditingLink(null);
                 }}
+                className="border-gray-600 hover:bg-gray-700"
               >
                 Отмена
               </Button>

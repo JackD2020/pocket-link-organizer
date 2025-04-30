@@ -34,19 +34,19 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div>
+    <header className="bg-gray-800 border-b border-gray-700 shadow-md">
+      <div className="container mx-auto px-4 py-4 md:py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="text-center md:text-left">
           <h1 className="text-2xl font-bold text-primary">Pocket Link</h1>
           <p className="text-muted-foreground">Организатор ваших ссылок</p>
         </div>
         
-        <Button onClick={() => setIsDialogOpen(true)}>
+        <Button onClick={() => setIsDialogOpen(true)} className="w-full md:w-auto">
           <Plus className="mr-2 h-4 w-4" /> Добавить ссылку
         </Button>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700">
             <DialogHeader>
               <DialogTitle>Добавить новую ссылку</DialogTitle>
             </DialogHeader>
@@ -59,6 +59,7 @@ export const Header: React.FC = () => {
                   onChange={(e) => setUrl(e.target.value)} 
                   placeholder="https://example.com"
                   required
+                  className="bg-gray-700 border-gray-600"
                 />
               </div>
               <div className="space-y-2">
@@ -68,6 +69,7 @@ export const Header: React.FC = () => {
                   value={title} 
                   onChange={(e) => setTitle(e.target.value)} 
                   placeholder="Пример названия"
+                  className="bg-gray-700 border-gray-600"
                 />
               </div>
               <div className="space-y-2">
@@ -78,6 +80,7 @@ export const Header: React.FC = () => {
                   onChange={(e) => setDescription(e.target.value)} 
                   placeholder="Добавьте описание ссылки..."
                   rows={3}
+                  className="bg-gray-700 border-gray-600"
                 />
               </div>
               <DialogFooter>
@@ -88,6 +91,7 @@ export const Header: React.FC = () => {
                     setIsDialogOpen(false);
                     resetForm();
                   }}
+                  className="border-gray-600 hover:bg-gray-700"
                 >
                   Отмена
                 </Button>
