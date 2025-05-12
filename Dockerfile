@@ -20,6 +20,9 @@ RUN npm run build
 # Этап для запуска приложения
 FROM nginx:alpine
 
+# Создаем директорию для данных приложения
+RUN mkdir -p /app/data
+
 # Копируем собранное приложение из предыдущего этапа
 COPY --from=build /app/dist /usr/share/nginx/html
 

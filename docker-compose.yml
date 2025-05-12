@@ -1,0 +1,12 @@
+
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - D:/pocket-link/data:/app/data
+    environment:
+      - NODE_ENV=production
