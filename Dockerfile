@@ -105,11 +105,11 @@ RUN chmod +x /app/server/api-server.js
 # Собираем приложение
 RUN npm run build
 
-# Создаем скрипт запуска, который будет запускать и nginx, и API сервер
-RUN echo '#!/bin/sh\n\
-node /app/server/api-server.js &\n\
-nginx -g "daemon off;"\n' > /app/start.sh
-RUN chmod +x /app/start.sh
+# Создаем скрипт запуска напрямую в файле
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'node /app/server/api-server.js &' >> /app/start.sh && \
+    echo 'nginx -g "daemon off;"' >> /app/start.sh && \
+    chmod +x /app/start.sh
 
 # Этап для запуска приложения
 FROM nginx:alpine
@@ -124,7 +124,12 @@ RUN mkdir -p /app/server
 # Копируем собранное приложение из предыдущего этапа
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY --from=build /app/server/api-server.js /app/server/api-server.js
-COPY --from=build /app/start.sh /app/start.sh
+
+# Явно создаем start.sh в финальном образе
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'node /app/server/api-server.js &' >> /app/start.sh && \
+    echo 'nginx -g "daemon off;"' >> /app/start.sh && \
+    chmod +x /app/start.sh
 
 # Копируем конфигурацию nginx для правильной работы React Router и проксирования API
 COPY nginx.conf /etc/nginx/conf.d/default.conf
@@ -135,4 +140,4 @@ EXPOSE 80
 EXPOSE 3000
 
 # Запускаем nginx и API сервер
-CMD ["/app/start.sh"]
+CMD ["/bin/sh", "/app/start.sh"]
