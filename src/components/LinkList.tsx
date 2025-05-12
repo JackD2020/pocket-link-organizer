@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useLinks, Link } from '../contexts/LinkContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Edit, Trash2, Link as LinkIcon } from 'lucide-react';
+import { Edit, Trash2, Link as LinkIcon, Loader2 } from 'lucide-react';
 
 export const LinkList: React.FC = () => {
-  const { links, updateLink, deleteLink } = useLinks();
+  const { links, updateLink, deleteLink, isLoading } = useLinks();
   const [editingLink, setEditingLink] = useState<Link | null>(null);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
@@ -21,7 +21,7 @@ export const LinkList: React.FC = () => {
     setEditingLink(link);
     setUrl(link.url);
     setTitle(link.title);
-    setDescription(link.description);
+    setDescription(link.description || '');
     setIsDialogOpen(true);
   };
 
@@ -47,6 +47,15 @@ export const LinkList: React.FC = () => {
       year: 'numeric'
     }).format(date);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        <p className="mt-4 text-lg">Загрузка ссылок...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -106,6 +115,9 @@ export const LinkList: React.FC = () => {
         <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700">
           <DialogHeader>
             <DialogTitle>Редактировать ссылку</DialogTitle>
+            <DialogDescription>
+              Внесите изменения в информацию о ссылке и нажмите "Обновить".
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleUpdate} className="space-y-4">
             <div className="space-y-2">

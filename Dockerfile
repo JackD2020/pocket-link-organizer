@@ -55,15 +55,20 @@ const server = http.createServer((req, res) => {\n\
   const parsedUrl = url.parse(req.url, true);\n\
   const pathname = parsedUrl.pathname;\n\
 \n\
+  console.log(`Request received: ${req.method} ${pathname}`);\n\
+\n\
   // API для работы с ссылками\n\
   if (pathname === "/api/links") {\n\
     if (req.method === "GET") {\n\
       // Получаем все ссылки\n\
       try {\n\
+        console.log(`Reading links from ${LINKS_FILE}`);\n\
         const data = fs.readFileSync(LINKS_FILE, "utf8");\n\
+        console.log(`Links data: ${data}`);\n\
         res.writeHead(200, { "Content-Type": "application/json" });\n\
         res.end(data);\n\
       } catch (err) {\n\
+        console.error(`Error reading links: ${err.message}`);\n\
         res.writeHead(500, { "Content-Type": "application/json" });\n\
         res.end(JSON.stringify({ error: "Failed to read links" }));\n\
       }\n\
@@ -76,11 +81,14 @@ const server = http.createServer((req, res) => {\n\
 \n\
       req.on("end", () => {\n\
         try {\n\
+          console.log(`Saving links data: ${body}`);\n\
           const data = JSON.parse(body);\n\
           fs.writeFileSync(LINKS_FILE, JSON.stringify(data), "utf8");\n\
+          console.log(`Links saved successfully to ${LINKS_FILE}`);\n\
           res.writeHead(200, { "Content-Type": "application/json" });\n\
           res.end(JSON.stringify({ success: true }));\n\
         } catch (err) {\n\
+          console.error(`Error saving links: ${err.message}`);\n\
           res.writeHead(500, { "Content-Type": "application/json" });\n\
           res.end(JSON.stringify({ error: "Failed to save links" }));\n\
         }\n\

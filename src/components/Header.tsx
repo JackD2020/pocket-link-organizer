@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLinks } from '../contexts/LinkContext';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus } from 'lucide-react';
 
 export const Header: React.FC = () => {
-  const { addLink } = useLinks();
+  const { addLink, isLoading } = useLinks();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
           <p className="text-muted-foreground">Организатор ваших ссылок</p>
         </div>
         
-        <Button onClick={() => setIsDialogOpen(true)} className="w-full md:w-auto">
+        <Button onClick={() => setIsDialogOpen(true)} className="w-full md:w-auto" disabled={isLoading}>
           <Plus className="mr-2 h-4 w-4" /> Добавить ссылку
         </Button>
 
@@ -49,6 +49,9 @@ export const Header: React.FC = () => {
           <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700">
             <DialogHeader>
               <DialogTitle>Добавить новую ссылку</DialogTitle>
+              <DialogDescription>
+                Введите информацию о ссылке и нажмите "Сохранить".
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
