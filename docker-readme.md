@@ -10,10 +10,10 @@ docker build -t pocket-link .
 ## Запуск Docker контейнера
 
 ```bash
-docker run -p 8080:80 pocket-link
+docker run -p 80:80 pocket-link
 ```
 
-После запуска контейнера приложение будет доступно по адресу http://localhost:8080
+После запуска контейнера приложение будет доступно по адресу http://localhost
 
 ## Использование Docker Compose
 

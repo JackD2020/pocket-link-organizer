@@ -27,7 +27,7 @@ const url = require("url");\n\
 \n\
 const DATA_DIR = "/app/data";\n\
 const LINKS_FILE = path.join(DATA_DIR, "links.json");\n\
-const PORT = 3000;\n\
+const PORT = 3001;\n\
 \n\
 // Убедимся, что директория существует\n\
 if (!fs.existsSync(DATA_DIR)) {\n\
@@ -144,8 +144,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Открываем порт 80
 EXPOSE 80
-# Открываем порт 3000 для API
-EXPOSE 3000
+# Открываем порт 3001 для API
+EXPOSE 3001
 
 # Запускаем nginx и API сервер
 CMD ["/bin/sh", "/app/start.sh"]
